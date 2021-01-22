@@ -1,9 +1,9 @@
 import {useState} from "react";
 import classNames from 'classnames'
-import ContentLoader from "react-content-loader"
+import Button from "./Button";
 
 
-const Pizza = ({imageUrl, name, price, types, sizes}) => {
+const Pizza = ({id, imageUrl, name, price, types, sizes, addPizza, addedCount}) => {
     const allTypes = ['тонкое', 'традиционное'];
     const [activeTypes, setActiveTypes] = useState(types[0]);
     const onChangeActiveTypes = index => {
@@ -14,6 +14,13 @@ const Pizza = ({imageUrl, name, price, types, sizes}) => {
     const [activeSizes, setActiveSizes] = useState(sizes[0]);
     const onChangeActiveSizes = index => {
         setActiveSizes(index);
+    }
+    const hadleAddPizza = () => {
+        const obj = {
+            id, imageUrl, name, price,
+            type: allTypes[activeTypes], size: activeSizes
+        }
+        addPizza(obj);
     }
     return (
         <div className="pizza-block">
@@ -47,7 +54,8 @@ const Pizza = ({imageUrl, name, price, types, sizes}) => {
             </div>
             <div className="pizza-block__bottom">
                 <div className="pizza-block__price">от {price} ₽</div>
-                <div className="button button--outline button--add">
+                <div onClick={hadleAddPizza}>
+                <Button className="button--add" outline>
                     <svg
                         width="12"
                         height="12"
@@ -60,8 +68,9 @@ const Pizza = ({imageUrl, name, price, types, sizes}) => {
                             fill="white"
                         />
                     </svg>
-                    <span>Добавить</span>
-                    <i>2</i>
+                    <span >Добавить</span>
+                    <i>{addedCount || 0}</i>
+                </Button>
                 </div>
             </div>
         </div>
